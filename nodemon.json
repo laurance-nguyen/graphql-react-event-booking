@@ -1,0 +1,8 @@
+{
+  "env": {
+    "PORT":3000,
+    "MONGO_DB": "mongodb://localhost:27017/events-react-dev",
+    "MONGO_USER": "shogunross",
+    "MONGO_PASSWORD": "truesoul1995"
+  }
+}
