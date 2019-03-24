@@ -15,24 +15,27 @@ module.exports = {
     };
   },
 
-  createEvent: async args => {
+  createEvent: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error('Unauthenciated');
+    }
     const event = new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,
       price: +args.eventInput.price,
       date: new Date(args.eventInput.date),
-      creator: '5c8e6f836b0af4150c8c618f'
+      creator: req.userId,
     });
     let createdEvent;
     try {
       const result = await event.save();
       createdEvent = transfromEvent(result);
-      const creator = await User.findById('5c8e6f836b0af4150c8c618f');
-      if (!creator) {
+      const user = await User.findById(req.userId);
+      if (!user) {
         throw new Error('User not found.');
       }
-      creator.createdEvents.push(event);
-      await creator.save();
+      user.createdEvents.push(event);
+      await user.save();
       return createdEvent;
     }
     catch (err) {
