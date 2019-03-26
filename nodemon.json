@@ -1,6 +1,6 @@
 {
   "env": {
-    "PORT":3000,
+  "PORT":5000,
     "MONGO_DB": "mongodb+srv://shogunross:truesoul1995@chatbotdatabase-y4vvz.gcp.mongodb.net/react-event-booking?retryWrites=true",
     "MONGO_USER": "shogunross",
     "MONGO_PASSWORD": "truesoul1995"
