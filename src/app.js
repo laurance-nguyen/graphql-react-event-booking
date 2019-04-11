@@ -12,7 +12,18 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// app.use(cors()); //This one using third-party tools to solve CORS policy
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers','Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+})
+
 app.use(bodyParser.json());
 
 app.use(isAuth);
