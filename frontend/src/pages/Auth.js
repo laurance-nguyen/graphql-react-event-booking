@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Auth.css'
+import AuthContext from '../context/auth-context'
 class AuthPage extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +10,9 @@ class AuthPage extends Component {
     this.emailEl = React.createRef();
     this.passwordEl = React.createRef();
   }
+
+  static contextType = AuthContext;
+
   submitHandler = (event) => {
     event.preventDefault();
     const email = this.emailEl.current.value;
@@ -55,7 +59,13 @@ class AuthPage extends Component {
       }
       return res.json();
     }).then(resData => {
-      console.log(resData);
+      if (resData.data.login.token) {
+        this.context.login(
+          resData.data.login.token,
+          resData.data.login.userId,
+          resData.data.login.tokenExpiration
+        );
+      }
     }).catch(err => {
       console.log(err)
     });
@@ -63,7 +73,7 @@ class AuthPage extends Component {
 
   switchModeHandler = () => {
     this.setState(prevState => {
-      return {isLogin: !prevState.isLogin}
+      return { isLogin: !prevState.isLogin }
     })
   }
 
@@ -76,11 +86,11 @@ class AuthPage extends Component {
         </div>
         <div className="form-control">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" autoComplete="new-password" ref={this.passwordEl} />
+          <input type="password" id="password" autoComplete="password" ref={this.passwordEl} />
         </div>
         <div className="form-action">
           <button type="submit">Submit</button>
-          <button type="button" onClick={this.switchModeHandler}>Switch to {this.state.isLogin ? 'Signup':'Login'}</button>
+          <button type="button" onClick={this.switchModeHandler}>Switch to {this.state.isLogin ? 'Signup' : 'Login'}</button>
         </div>
       </form>
     );
