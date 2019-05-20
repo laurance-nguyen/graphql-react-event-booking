@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./MainNavigation.css";
 import AuthContext from "../../context/auth-context";
 
-const mainNavigation = props => {
+const MainNavigation = props => {
   return (
     <AuthContext.Consumer>
       {context => {
@@ -41,4 +41,4 @@ const mainNavigation = props => {
   );
 };
 
-export default mainNavigation;
+export default MainNavigation;
